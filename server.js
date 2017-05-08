@@ -23,7 +23,7 @@ bot.on('ready', () => {
     console.log("Ready...");
     reddit.get(subreddit + '.json?count=100/', function (err, response) {
         if (err) throw err;
-        console.log("Image list populated");
+        console.log("Image list populated (" + posts.length + " total)");
         after = response.data.after;
         posts = response.data.children;
     });
@@ -31,9 +31,9 @@ bot.on('ready', () => {
 
 bot.on("messageCreate", (msg) => {
     if (msg.content === process.env.MSG) {
-        console.log("Received message");
+        console.log("Received link request");
         if (posts.length >= 2) {
-            console.log("Enough images, won't get more");
+            console.log(posts.length + " images left in storage, won't fetch more");
             bot.createMessage(process.env.CHANNEL_ID, posts.shift().data.url);
         }
         else {

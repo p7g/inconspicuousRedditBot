@@ -27,15 +27,15 @@ It doesn't do very much.
 
 
 - MSG: the command being listened for (sends a single link)
-..* For example: "/bot"
+  * For example: "/bot"
 - CHANNEL_ID: the channel to which it will send messages
-..* Protip: enable developer mode in discord, right-click the channel, click "Copy ID"
+  * Protip: enable developer mode in discord, right-click the channel, click "Copy ID"
 - TOKEN: the Discord bot user token
-..* I hope you weren't expecting this to be provided...
+  * I hope you weren't expecting this to be provided...
 - UBREDDIT: the subreddit to be scraped
-..* I recommend "/r/awwnime/" ...if you're into that sorta thing
+  * I recommend "/r/awwnime/" ...if you're into that sorta thing
 - INTERVAL: the time between each automatically sent link
-..* Measured in milliseconds
+  * Measured in milliseconds
 
 
 #### Autosend:

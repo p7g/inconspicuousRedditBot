@@ -3,3 +3,19 @@ node_modules/
 *.nsproj
 
 preexisting/
+
+favicon.ico
+
+iisnode.yml
+
+robots.txt
+
+web.config
+
+obj/
+
+public/
+
+HTMLPage.html
+
+azuredeploy.json

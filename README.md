@@ -2,22 +2,29 @@
 
 ##An incredibly simple Discord and Reddit bot.
 
+
 It doesn't do very much.
 
 ======
 
 ###Features:
 
+
 +Scrapes a provided subreddit for the link of each post
+
 +Works with pictures, since discord embeds them from the link
+
 +Only sends messages in a provided text channel (is that a feature?)
+
 +Can send a new link periodically (user defined interval)
 
 ------
 
 ###Things you need to know:
 
+
 ####Environment Variables:
+
 
 -MSG: the command being listened for (sends a single link)
 ..-For example: "/bot"
@@ -30,10 +37,20 @@ It doesn't do very much.
 -INTERVAL: the time between each automatically sent link
 ..-Measured in milliseconds
 
+
 ####Autosend:
+
 
 To enable, send the message '$MSG autosend', where '$MSG' is the environment variable selected above. To disable, repeat the process. The bot will even tell you what you just did! In case you hadn't already realized!
 
+
 ####Permissions:
 
+
 There are no permissions. How's that for simple?
+
+======
+
+###Coming Soon:
+
+-Exception handling! Isn't that exciting?!

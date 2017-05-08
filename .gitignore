@@ -21,3 +21,5 @@ HTMLPage.html
 azuredeploy.json
 
 redditbot.nsproj
+
+.env

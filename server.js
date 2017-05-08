@@ -1,4 +1,5 @@
 'use strict';
+require('dotenv').config();
 var http = require('http');
 var Eris = require('eris');
 var reddit = require('redditor');

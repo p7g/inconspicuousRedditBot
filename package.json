@@ -4,13 +4,14 @@
   "private": true,
   "scripts": {
     "start": "node server"
-  },  
-"license": "Apache",
-"engines": {
+  },
+  "license": "Apache",
+  "engines": {
     "node": "~0.10.0 || ~4.2.0"
   },
   "dependencies": {
-	"eris": "^0.6.0",
-	"redditor": "^1.1.1"
+    "dotenv": "^4.0.0",
+    "eris": "^0.6.0",
+    "redditor": "^1.1.1"
   }
 }

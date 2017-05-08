@@ -46,14 +46,18 @@ bot.on("messageCreate", (msg) => {
         }
     }
     if (msg.content === process.env.MSG + " autosend") {
-        bot.createMessage("Autosend is now " + (!autoSend) ? "true" : "false");
-        autosend = (autosend) ? false : true;
-        if (autosend) {
+        console.log("Received autosend toggle")
+        bot.createMessage(process.env.CHANNEL_ID, "Autosend is now " + ((autoSend.active) ? "off" : "on"));
+        autoSend.active = (autoSend.active) ? false : true;
+        if (autoSend.active) {
+            console.log("Autosend is now true")
             autoSend.interval = setInterval(() => {
+                console.log("Sent automatic message");
                 bot.createMessage(process.env.CHANNEL_ID, posts.shift().data.url);
             }, process.env.INTERVAL);
             return;
         }
+        console.log("Autosend is now false");
         clearInterval(autoSend.interval);
     }
 });

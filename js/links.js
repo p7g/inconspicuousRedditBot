@@ -2,9 +2,10 @@ var reddit = require('redditor');
 var subreddit = process.env.SUBREDDIT;
 
 module.exports = {
-    "getLinks": function (after = "", callback) {
+    "getLinks": function (after, callback) {
+        if (!after)
+            after = "";
         var posts = [];
-        var after;
         var err;
         try {
             reddit.get(subreddit + '.json?limit=100' + ((after == "") ? "" : "&after=" + after), function (err, response) {

@@ -2,14 +2,12 @@
 require('dotenv').config();
 var http = require('http');
 var Eris = require('eris');
-var reddit = require('redditor');
 var links = require('./js/links');
 var logger = require('./js/logger');
 
 var bot = new Eris(process.env.TOKEN);
 var port = process.env.port || 8080;
 
-var subreddit = process.env.SUBREDDIT;
 var posts = [];
 var after = "";
 var autoSend = {
@@ -30,7 +28,7 @@ http.createServer(function (req, res) {
 
 bot.on('ready', () => {
     logger.log("Ready...");
-    links.getLinks((err, pst, aft) => {
+    links.getLinks(null, function (err, pst, aft) {
         if (err) {
             logger.log(err);
             return;
@@ -43,15 +41,15 @@ bot.on('ready', () => {
 bot.on("messageCreate", (msg) => {
     if (msg.content === process.env.MSG) {
         logger.log("Received link request");
-        if (posts.length >= 2) {
-            logger.log(posts.length + " links left in storage, won't fetch more");
+        if (posts.length -1 >= 2) {
+            logger.log(posts.length -1 + " links left in storage, won't fetch more");
             sendLink();
         }
         else {
             logger.log("Last link, fatching more...");
-            links.getLinks(after, (err, pst, aft) => {
+            links.getLinks(after, function (err, pst, aft) {
                 if (err) {
-
+                    logger.log(err);
                     return;
                 }
                 posts = pst;
@@ -67,8 +65,23 @@ bot.on("messageCreate", (msg) => {
         if (autoSend.active) {
             logger.log("Autosend is now true")
             autoSend.interval = setInterval(() => {
+                if (posts.length -1 >= 2) {
+                    logger.log(posts.length -1 + " links left in storage, won't fetch more");
+                    sendLink();
+                }
+                else {
+                    logger.log("Last link, fatching more...");
+                    links.getLinks(after, function (err, pst, aft) {
+                        if (err) {
+                            logger.log(err);
+                            return;
+                        }
+                        posts = pst;
+                        after = aft;
+                    });
+                    sendLink();
+                }
                 logger.log("Sent automatic message");
-                sendLink();
             }, process.env.INTERVAL);
             return;
         }

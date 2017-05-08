@@ -5,7 +5,7 @@
 
 It doesn't do very much.
 
-======
+------
 
 ### Features:
 
@@ -49,8 +49,8 @@ To enable, send the message '$MSG autosend', where '$MSG' is the environment var
 
 There are no permissions. How's that for simple?
 
-======
+------
 
-### Coming Soon:
+### Coming Soon&trade;:
 
 - Exception handling! Isn't that exciting?!

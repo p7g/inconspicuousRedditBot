@@ -1,5 +1,5 @@
 'use strict';
-//require('dotenv').config();
+require('dotenv').config();
 var http = require('http');
 var Eris = require('eris');
 var links = require('./js/links');
@@ -39,7 +39,7 @@ bot.on('ready', () => {
 });
 
 bot.on("messageCreate", (msg) => {
-    if (msg.content === process.env.MSG) {
+    if (msg.content === process.env.MSG && msg.channel.id === process.env.CHANNEL_ID) {
         logger.log("Received link request");
         if (posts.length -1 >= 2) {
             logger.log(posts.length -1 + " links left in storage, won't fetch more");

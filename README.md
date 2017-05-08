@@ -32,7 +32,7 @@ It doesn't do very much.
   * Protip: enable developer mode in discord, right-click the channel, click "Copy ID"
 - TOKEN: the Discord bot user token
   * I hope you weren't expecting this to be provided...
-- UBREDDIT: the subreddit to be scraped
+- SUBREDDIT: the subreddit to be scraped
   * I recommend "/r/awwnime/" ...if you're into that sorta thing
 - INTERVAL: the time between each automatically sent link
   * Measured in milliseconds

@@ -9,6 +9,10 @@ var port = process.env.port || 8080;
 var subreddit = process.env.SUBREDDIT;
 var posts = [];
 var after = "";
+var autoSend = {
+    "active": false,
+    "interval": ""
+}
 
 http.createServer(function (req, res) {
     res.writeHead(200, { 'Content-Type': 'text/plain' });
@@ -40,6 +44,17 @@ bot.on("messageCreate", (msg) => {
             });
             bot.createMessage(process.env.CHANNEL_ID, posts.shift().data.url);
         }
+    }
+    if (msg.content === process.env.MSG + " autosend") {
+        bot.createMessage("Autosend is now " + (!autoSend) ? "true" : "false");
+        autosend = (autosend) ? false : true;
+        if (autosend) {
+            autoSend.interval = setInterval(() => {
+                bot.createMessage(process.env.CHANNEL_ID, posts.shift().data.url);
+            }, process.env.INTERVAL);
+            return;
+        }
+        clearInterval(autoSend.interval);
     }
 });
 

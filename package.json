@@ -1,0 +1,13 @@
+{
+  "name": "redditbot",
+  "version": "0.0.0",
+  "description": "redditbot",
+  "main": "server.js",
+  "author": {
+    "name": "775pg"
+  },
+  "dependencies": {
+    "eris": "0.6.0",
+    "redditor": "1.1.1"
+  }
+}

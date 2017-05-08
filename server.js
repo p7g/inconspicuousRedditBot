@@ -1,5 +1,5 @@
 'use strict';
-require('dotenv').config();
+//require('dotenv').config();
 var http = require('http');
 var Eris = require('eris');
 var links = require('./js/links');

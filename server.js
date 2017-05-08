@@ -2,6 +2,8 @@
 var http = require('http');
 var Eris = require('eris');
 var reddit = require('redditor');
+var links = require('./js/links');
+var logger = require('./js/logger');
 
 var bot = new Eris(process.env.TOKEN);
 var port = process.env.port || 8080;
@@ -11,7 +13,13 @@ var posts = [];
 var after = "";
 var autoSend = {
     "active": false,
-    "interval": ""
+    "interval": null
+}
+
+logger.init();
+
+function sendLink () {
+    bot.createMessage(process.env.CHANNEL_ID, posts.shift().data.url);
 }
 
 http.createServer(function (req, res) {
@@ -20,44 +28,50 @@ http.createServer(function (req, res) {
 }).listen(port);
 
 bot.on('ready', () => {
-    console.log("Ready...");
-    reddit.get(subreddit + '.json?count=100/', function (err, response) {
-        if (err) throw err;
-        console.log("Image list populated (" + posts.length + " total)");
-        after = response.data.after;
-        posts = response.data.children;
+    logger.log("Ready...");
+    links.getLinks((err, pst, aft) => {
+        if (err) {
+            logger.log(err);
+            return;
+        }
+        posts = pst;
+        after = aft;
     });
 });
 
 bot.on("messageCreate", (msg) => {
     if (msg.content === process.env.MSG) {
-        console.log("Received link request");
+        logger.log("Received link request");
         if (posts.length >= 2) {
-            console.log(posts.length + " images left in storage, won't fetch more");
-            bot.createMessage(process.env.CHANNEL_ID, posts.shift().data.url);
+            logger.log(posts.length + " links left in storage, won't fetch more");
+            sendLink();
         }
         else {
-            console.log("Last image, getting more");
-            posts = reddit.get(subreddit + '.json?count=100&after=' + posts.after, function (err, response) {
-                if (err) throw err;
-                return response.data;
+            logger.log("Last link, fatching more...");
+            links.getLinks(after, (err, pst, aft) => {
+                if (err) {
+
+                    return;
+                }
+                posts = pst;
+                after = aft;
             });
-            bot.createMessage(process.env.CHANNEL_ID, posts.shift().data.url);
+            sendLink();
         }
     }
     if (msg.content === process.env.MSG + " autosend") {
-        console.log("Received autosend toggle")
+        logger.log("Received autosend toggle")
         bot.createMessage(process.env.CHANNEL_ID, "Autosend is now " + ((autoSend.active) ? "off" : "on"));
         autoSend.active = (autoSend.active) ? false : true;
         if (autoSend.active) {
-            console.log("Autosend is now true")
+            logger.log("Autosend is now true")
             autoSend.interval = setInterval(() => {
-                console.log("Sent automatic message");
-                bot.createMessage(process.env.CHANNEL_ID, posts.shift().data.url);
+                logger.log("Sent automatic message");
+                sendLink();
             }, process.env.INTERVAL);
             return;
         }
-        console.log("Autosend is now false");
+        logger.log("Autosend is now false");
         clearInterval(autoSend.interval);
     }
 });

@@ -39,7 +39,7 @@ bot.on('ready', () => {
 });
 
 bot.on("messageCreate", (msg) => {
-    if (msg.content === process.env.MSG && msg.channel.id === process.env.CHANNEL_ID) {
+    if (msg.content === process.env.MSG && msg.channel.id == process.env.CHANNEL_ID) {
         logger.log("Received link request");
         if (posts.length -1 >= 2) {
             logger.log(posts.length -1 + " links left in storage, won't fetch more");
@@ -58,7 +58,7 @@ bot.on("messageCreate", (msg) => {
             sendLink();
         }
     }
-    if (msg.content === process.env.MSG + " autosend") {
+    if (msg.content === process.env.MSG + " autosend" && msg.channel.id == process.env.CHANNEL_ID) {
         logger.log("Received autosend toggle")
         bot.createMessage(process.env.CHANNEL_ID, "Autosend is now " + ((autoSend.active) ? "off" : "on"));
         autoSend.active = (autoSend.active) ? false : true;
